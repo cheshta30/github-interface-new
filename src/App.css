@@ -1,0 +1,30 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+
+}
+
+#main{
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin: 100px 300px 100px 500px;
+  padding: 100px;
+  
+}
+
+#SubmitButton{
+  padding: auto;
+  background-color: rgb(64, 64, 218);
+  color: white;
+  height: auto;
+  width: auto;
+  padding: 8.5px 14px;
+  margin-top: 2px;
+  border-radius: 20px;
+
+    /* size:; */
+
+}
