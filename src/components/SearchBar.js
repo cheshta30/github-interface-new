@@ -1,34 +1,30 @@
-import { useState } from "react";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import '../App.css'
+import Button from "@mui/material/Button";
 
+function SearchBar({ handleSubmit }) {
+  const [searchQuery, setSearchQuery] = useState("");
 
-function SearchBar(){
-  const [searchQuery,setSearchQuery]= useState('');
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSubmit(searchQuery);
+    setSearchQuery(""); // Clear search input after submission
+  };
 
-
-    return(
-    <form> 
-
+  return (
+    <form onSubmit={handleFormSubmit}>
       <TextField
-        // id="search-bar"
-        // className="text"
         label="Search Github Username"
-        // variant="outlined"
-        placeholder="Search..."
+        placeholder="Enter username..."
         size="small"
-        onInput={(e) => {
-          setSearchQuery(e.target.value);
-        }}
-        
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <button id="SubmitButton" onClick={setSearchQuery}>Search</button>
-      {/* <IconButton type="submit" aria-label="search">
-        <SearchIcon style={{ fill: "blue" }} />
-      </IconButton> */}
-    </form>)
-} 
-    
+      <Button id="SubmitButton" type="submit">
+        Search
+      </Button>
+    </form>
+  );
+}
+
 export default SearchBar;
