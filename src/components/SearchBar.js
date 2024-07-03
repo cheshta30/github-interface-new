@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import "../App.css";
+
 
 function SearchBar({ handleSubmit }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,7 +18,7 @@ function SearchBar({ handleSubmit }) {
       <TextField
         label="Search Github Username"
         placeholder="Enter username..."
-        size="small"
+        size="large"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
