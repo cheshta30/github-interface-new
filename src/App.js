@@ -83,7 +83,7 @@ export default function App() {
                 <span>
                   <div>
                     Following: <br />
-                    <pre>  {profileData.following}</pre>
+                    <pre>   {profileData.following}</pre>
                   </div>
                 </span>
                 <span>

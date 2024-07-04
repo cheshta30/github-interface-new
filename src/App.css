@@ -1,42 +1,7 @@
-/* * {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
-}
-
-#Overall{
-  background-color: '#040526';
-  
-}
-#main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 100px 300px 100px 500px;
-  padding: 100px;
-}
-
-#searchBarContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-#searchBar {
-  display: flex;
-  width: 100%;
-  max-width: 1000px; /* Match the maxWidth of the Card */
-/* } */
-
-TextField{
-  width: 32em;
-}
-#searchBar input {
-  flex: 1;
-  
 }
 
 #SubmitButton {
@@ -49,23 +14,9 @@ TextField{
   cursor: pointer;
 }
 
-.inline-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: large;
-  color: white;
-  padding: 2em;
-} */
-
-
-* {
-  background-color: rgb(34, 18, 89);
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  color: black;
+#searchBar input {
+  flex: 1;
+  
 }
 
 #outline {
@@ -136,7 +87,7 @@ h2, h3, h4 {
   display: flex;
   justify-content: space-between;
   background-color: #808080;
-  height: 60px;
+  height: 80px;
   padding: 25px;
   margin: 0;
   margin-right: 20px;
@@ -144,7 +95,6 @@ h2, h3, h4 {
 }
 
 #Other1, #Other2{
-  
   display: flex;
   justify-content: space-between;
   margin-right: 50px;
