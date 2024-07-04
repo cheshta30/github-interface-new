@@ -1,16 +1,12 @@
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Avatar from "@mui/material/Avatar";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import SearchBar from "./components/SearchBar";
 import { FaTwitter } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
 import { GoLink } from "react-icons/go";
 import { PiBuildingOfficeLight } from "react-icons/pi";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
+import { MdOutlineLightMode } from "react-icons/md";
 
 function fetchGithubData(userName) {
   return fetch(`https://api.github.com/users/${userName}`)
@@ -26,7 +22,6 @@ export default function App() {
   const [userName, setUserName] = useState("");
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
-  const [isPending, startTransition] = useTransition();
 
   const fetchProfileData = async (userName) => {
     try {
@@ -43,106 +38,118 @@ export default function App() {
   };
 
   const handleSubmit = (userName) => {
-    startTransition(() => {
-      fetchProfileData(userName);
-    });
+    if (!userName) {
+      alert("Username can't be null");
+      return;
+    }
+    fetchProfileData(userName);
   };
 
-  return (
-    <div id="Overall">
-      <nav>
-        <h4>devfinder</h4>
-        Theme
-        <br/>
-        <SearchBar handleSubmit={handleSubmit} />
-      </nav>
-      <CssBaseline />
-      <Box sx={{ bgcolor: '#040526', height: '100vh' }}>
-        <div id="output">
-          {isPending ? (
-            <Typography gutterBottom variant="h4">
-              Please Wait
-            </Typography>
-          ) : (
-            profileData && (
-              <Card sx={{ bgcolor: '#222352', maxWidth: 1000 }}>
-                <br/>
-                <Avatar  sx={{ width: 90, height: 90 }} alt="Avatar" sizes="" src={profileData.avatar_url} />
-                
-                <div><div className="inline-container">
-                        <Typography gutterBottom variant="h3">
-                          {profileData.login}
-                        </Typography>
-                        <Typography variant="body2">
-                          Joined: {new Date(profileData.created_at).toLocaleDateString()}
-                        </Typography><br/>
-                        
-                </div>
-                <Typography size="small" color={"blue"}>
-                    <p>@{profileData.login}</p>
-                  </Typography>
 
-                </div>
-                <CardContent>
-                  
-                  <Typography variant="body2">
-                    {profileData.bio ? profileData.bio : <p>This profile has no bio</p>}
-                    <br />
-                    Followers: {profileData.followers}
-                    <br />
-                    Following: {profileData.following}
-                    <br />
-                    Repos: {profileData.public_repos}
-                    <br />
-                    Joined: {new Date(profileData.created_at).toLocaleDateString()}
-                  </Typography>
+  return (
+    <div id="outline">
+      <nav id="nav">
+        <h3>devfinder</h3>
+        <pre>Dark <MdOutlineLightMode /></pre>
+      </nav>
+      <br />
+      <SearchBar handleSubmit={handleSubmit} />
+      <br />
+      <div id="card">
+        {profileData && (
+          <div id="profile">
+            <Avatar sx={{ width: 90, height: 90 }} alt="Avatar" src={profileData.avatar_url} />
+            <div id="profile-text">
+              <div id="name-joined">
+                <h2>{profileData.login}</h2>
+                <h4>Joined: {new Date(profileData.created_at).toLocaleDateString()}</h4>
+              </div>
+              <h3>@{profileData.login}</h3>
+            </div>
+          </div>
+        )}
+        <div id="other_content">
+          {profileData ? (
+            <>
+              <p>{profileData.bio ? profileData.bio : "This profile has no bio"}</p>
+              <br />
+              <div id="rectangle">
+                <span>
+                  <div>
+                    Followers: <br />
+                    <pre>  {profileData.followers}</pre>
+                   </div>
+                </span>
+                <span>
+                  <div>
+                    Following: <br />
+                    <pre>  {profileData.following}</pre>
+                  </div>
+                </span>
+                <span>
+                  <div>
+                    Repos: <br />
+                    <pre>  {profileData.public_repos}</pre>
+                    
+                  </div>
+                </span>
+              </div>
+              <br />
+              <div id="Other1">
+                <span>
                   {profileData.location ? (
-                    <div>
+                    <>
                       <IoLocationSharp /> {profileData.location}
-                    </div>
+                    </>
                   ) : (
-                    <Typography gutterBottom variant="body2" color="text.secondary" component="div">
+                    <>
                       <IoLocationSharp /> Not Available
-                    </Typography>
+                    </>
                   )}
+                </span>
+                <span>
                   {profileData.twitter_username ? (
-                    <div>
+                    <>
                       <FaTwitter /> {profileData.twitter_username}
-                    </div>
+                    </>
                   ) : (
-                    <Typography gutterBottom variant="body2" color="text.secondary" component="div">
+                    <>
                       <FaTwitter /> Not Available
-                    </Typography>
+                    </>
                   )}
+                </span>
+              </div>
+              <br />
+              <div id="Other2">
+                <span>
                   {profileData.blog ? (
-                    <div>
+                    <>
                       <GoLink /> {profileData.blog}
-                    </div>
+                    </>
                   ) : (
-                    <Typography gutterBottom variant="body2" color="text.secondary" component="div">
+                    <>
                       <GoLink /> Not Available
-                    </Typography>
+                    </>
                   )}
+                </span>
+                <span>
                   {profileData.company ? (
-                    <div>
+                    <>
                       <PiBuildingOfficeLight /> {profileData.company}
-                    </div>
+                    </>
                   ) : (
-                    <Typography gutterBottom variant="body2" color="text.secondary" component="div">
+                    <>
                       <PiBuildingOfficeLight /> Not Available
-                    </Typography>
+                    </>
                   )}
-                </CardContent>
-              </Card>
-            )
-          )}
-          {error && (
-            <Typography variant="body2" color="error">
-              {error}
-            </Typography>
+                </span>
+              </div>
+            </>
+          ) : (
+            console.log(error)
           )}
         </div>
-      </Box>
+      </div>
     </div>
   );
 }
