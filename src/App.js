@@ -3,14 +3,11 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 import "./App.css";
 import Avatar from "@mui/material/Avatar";
 import SearchBar from "./components/SearchBar";
-import { FaTwitter } from "react-icons/fa6";
+import { FaTwitter, FaSun, FaMoon } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { GoLink } from "react-icons/go";
 import { PiBuildingOfficeLight } from "react-icons/pi";
-import IconButton from '@mui/material/IconButton';
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import styled, { ThemeProvider } from 'styled-components';
 
 const queryClient = new QueryClient();
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
@@ -24,6 +21,23 @@ function fetchGithubData(userName) {
       return response.json();
     });
 }
+
+const Button = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+`;
+
+const darkTheme = {
+  background: '#060730',
+  color: '#ffffff',
+};
+
+const lightTheme = {
+  background: '#ffffff',
+  color: '#000000',
+};
 
 function MyApp() {
   const [userName, setUserName] = useState("");
@@ -41,17 +55,16 @@ function MyApp() {
     setUserName(newUserName);
   };
 
-  const theme = useTheme();
-  const colorMode = useContext(ColorModeContext);
+  const { theme, toggleColorMode } = useContext(ColorModeContext);
 
   return (
-    <div id="outline" style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}>
+    <div id="outline" style={{ backgroundColor: theme.background, color: theme.color }}>
       <nav id="nav">
         <h3>devfinder</h3>
-        <pre>{theme.palette.mode} mode
-          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+        <pre>{theme === darkTheme ? 'dark' : 'light'} mode
+          <Button onClick={toggleColorMode}>
+            {theme === darkTheme ? <FaSun /> : <FaMoon />}
+          </Button>
         </pre>
       </nav>
       <br />
@@ -71,7 +84,7 @@ function MyApp() {
                   <h2>{profileData.login}</h2>
                   <h4>Joined: {new Date(profileData.created_at).toLocaleDateString()}</h4>
                 </div>
-                <h3>@{profileData.login}</h3>
+                <h3><a target="_blank" href={`https://github.com/${profileData.login}`}>@{profileData.login}</a></h3>
               </div>
             </div>
             <div id="other_content">
@@ -159,33 +172,18 @@ export default function App() {
   const [mode, setMode] = useState('light');
   const colorMode = useMemo(
     () => ({
+      theme: mode === 'light' ? lightTheme : darkTheme,
       toggleColorMode: () => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
     }),
-    [],
-  );
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          background: {
-            default: mode === 'light' ? '#ffffff' : '#060730', // Light: white, Dark: dark blue
-          },
-          text: {
-            primary: mode === 'light' ? '#000000' : '#ffffff', // Light: black, Dark: white
-          },
-        },
-      }),
     [mode],
   );
 
   return (
     <QueryClientProvider client={queryClient}>
       <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={colorMode.theme}>
           <MyApp />
         </ThemeProvider>
       </ColorModeContext.Provider>

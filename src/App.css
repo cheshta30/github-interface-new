@@ -3,6 +3,9 @@
   margin: 0;
   padding: 0;
 }
+a{
+  text-decoration: none;
+}
 
 #SubmitButton {
   background-color: rgb(64, 64, 218);
