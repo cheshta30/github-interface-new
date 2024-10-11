@@ -1,33 +1,36 @@
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import "../App.css";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
-function SearchBar({ handleSubmit }) {
-  const [searchQuery, setSearchQuery] = useState("");
+// Styled input with dynamic text and background colors
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  color: ${(props) => props.theme.color};  // Use theme color for text
+  background-color: ${(props) => (props.theme.background === '#060730' ? '#333' : '#fff')};  // Change background based on theme
+`;
 
-  const handleFormSubmit = (e) => {
+function SearchBar({ handleSubmit, theme }) {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    handleSubmit(searchQuery);
-    setSearchQuery("");
+    handleSubmit(inputValue);
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <TextField
-        fullWidth
-        label="Search Github Username"
-        placeholder="Enter username..."
-        size="large"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        InputProps={{
-          endAdornment: (
-            <Button id="SubmitButton" type="submit" variant="contained">
-              Search
-            </Button>
-          ),
-        }}
+    <form onSubmit={onSubmit}>
+      <Input 
+        type="text" 
+        placeholder="Search GitHub username…" 
+        value={inputValue} 
+        onChange={handleInputChange}
+        theme={theme}  // Pass the theme prop to styled input
       />
     </form>
   );
